@@ -2,6 +2,10 @@ import React from 'react';
 import axe from 'axe-core';
 import { mountToDoc } from './test-helpers';
 
+const fs = require('fs');
+const path = require('path');
+const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
+
 import Link from './link';
 
 test('Link has no axe violations', done => {
@@ -20,9 +24,9 @@ test('Link has no axe violations', done => {
     }
   };
 
-  console.log(document.querySelector('.wally'));
+  document.documentElement.innerHTML = html.toString()
 
-  axe.run(document.querySelector('.wally'), config, (err, results) => {
+  axe.run(config, (err, results) => {
     // expect(err).toBe(null);
     // expect(results.violations).toHaveLength(2);
 
@@ -45,10 +49,10 @@ test('Link has no axe violations', done => {
       
       // console.log(resultObj);
 
-      console.log('test description: ', description,
-        '\nto fix: ', help,
-        '\nmore info: ', helpUrl,
-        '\nwhere it failed: ', whereItFailed,
+      console.log('TEST DESCRIPTION: ', description,
+        '\nISSUE: ', help,
+        '\nMORE INFO: ', helpUrl,
+        '\nWHERE IT FAILED: ', whereItFailed,
         // '\nhow to fix: ', failureSummary
       )
     })
