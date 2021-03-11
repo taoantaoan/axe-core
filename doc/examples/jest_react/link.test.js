@@ -1,9 +1,9 @@
 const regeneratorRuntime = require('regenerator-runtime');
 import axe from 'axe-core';
 
-const fs = require('fs');
 const path = require('path');
-const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
+const fs = require('fs');
+const html = fs.readFileSync(path.resolve(__dirname, './index2.html'), 'utf8');
 
 describe('Evaluate axe-core violations', () => {
   it('html file has no axe violations', done => {
@@ -15,7 +15,9 @@ describe('Evaluate axe-core violations', () => {
       }
     };
 
-    document.documentElement.lang = 'en';
+    // get language tag from imported html file and assign to jsdom document
+    const langTag = html.match(/<html lang="(.*)"/)[1];
+    document.documentElement.lang = langTag;
     document.documentElement.innerHTML = html.toString();
 
     axe.run(config, async (err, { violations }) => {
