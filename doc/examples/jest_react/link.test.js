@@ -1,3 +1,4 @@
+const regeneratorRuntime = require("regenerator-runtime");
 import axe from 'axe-core';
 
 const fs = require('fs');
@@ -16,12 +17,12 @@ const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
       }
     };
   
-    const myDoc = document.documentElement.innerHTML = html.toString();
+    document.documentElement.innerHTML = html.toString();
     // [x] prints out the following
     console.log(document.documentElement.innerHTML);
     // jest.setTimeout(50000)
   
-    axe.run(myDoc, config, (err, { violations }) => {
+    axe.run(config, async (err, { violations }) => {
       // if (err) console.log(err);
       // [x] prints out the following
       console.log('violations.length:', violations.length, 'err: ', err);
