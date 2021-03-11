@@ -21,27 +21,20 @@ describe('Evaluate axe-core violations', () => {
     axe.run(config, async (err, { violations }) => {
       if (err) console.log('err: ', err);
 
-      if (violations.length === 0) {
-        console.log(
-          'Congrats! Keep up the good work, you have 0 known violations!'
-        );
+        console.log('Congrats! Keep up the good work, you have 0 known violations!');
+
       } else {
         violations.forEach(axeViolation => {
           console.log('-------');
           const whereItFailed = axeViolation.nodes[0].html;
           // const failureSummary = axeViolation.nodes[0].failureSummary;
-
+    
           const { description, help, helpUrl } = axeViolation;
 
-          console.log(
-            'TEST DESCRIPTION: ',
-            description,
-            '\nISSUE: ',
-            help,
-            '\nMORE INFO: ',
-            helpUrl,
-            '\nWHERE IT FAILED: ',
-            whereItFailed
+          console.log('TEST DESCRIPTION: ', description,
+            '\nISSUE: ', help,
+            '\nMORE INFO: ', helpUrl,
+            '\nWHERE IT FAILED: ', whereItFailed,
             // '\nhow to fix: ', failureSummary
           );
         });
