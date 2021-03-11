@@ -23,9 +23,11 @@ describe('Evaluate axe-core violations', () => {
     axe.run(config, async (err, { violations }) => {
       if (err) {
         console.log('err: ', err);
+        done();
+      }
 
+      if (violations.length === 0) {
         console.log('Congrats! Keep up the good work, you have 0 known violations!');
-
       } else {
         violations.forEach(axeViolation => {
           console.log('-------');
