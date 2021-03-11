@@ -19,7 +19,8 @@ describe('Evaluate axe-core violations', () => {
     document.documentElement.innerHTML = html.toString();
 
     axe.run(config, async (err, { violations }) => {
-      if (err) console.log('err: ', err);
+      if (err) {
+        console.log('err: ', err);
 
         console.log('Congrats! Keep up the good work, you have 0 known violations!');
 
