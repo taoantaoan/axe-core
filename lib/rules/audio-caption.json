@@ -8,8 +8,10 @@
     "wcag2a",
     "wcag121",
     "section508",
-    "section508.22.a"
+    "section508.22.a",
+    "deprecated"
   ],
+  "actIds": ["2eb176", "afb423"],
   "metadata": {
     "description": "Ensures <audio> elements have captions",
     "help": "<audio> elements must have a captions track"

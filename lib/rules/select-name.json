@@ -5,11 +5,13 @@
     "cat.forms",
     "wcag2a",
     "wcag412",
-    "wcag131",
     "section508",
     "section508.22.n",
-    "ACT"
+    "ACT",
+    "TTv5",
+    "TT5.c"
   ],
+  "actIds": ["e086e5"],
   "metadata": {
     "description": "Ensures select element has an accessible name",
     "help": "Select element must have an accessible name"

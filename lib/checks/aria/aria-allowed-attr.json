@@ -1,6 +1,14 @@
 {
   "id": "aria-allowed-attr",
   "evaluate": "aria-allowed-attr-evaluate",
+  "options": {
+    "validTreeRowAttrs": [
+      "aria-posinset",
+      "aria-setsize",
+      "aria-expanded",
+      "aria-level"
+    ]
+  },
   "metadata": {
     "impact": "critical",
     "messages": {
@@ -8,7 +16,8 @@
       "fail": {
         "singular": "ARIA attribute is not allowed: ${data.values}",
         "plural": "ARIA attributes are not allowed: ${data.values}"
-      }
+      },
+      "incomplete": "Check that there is no problem if the ARIA attribute is ignored on this element: ${data.values}"
     }
   }
 }

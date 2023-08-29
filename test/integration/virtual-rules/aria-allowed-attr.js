@@ -1,5 +1,5 @@
-describe('aria-allowed-attr virtual-rule', function() {
-  it('should pass for required attributes', function() {
+describe('aria-allowed-attr virtual-rule', function () {
+  it('should pass for required attributes', function () {
     var results = axe.runVirtualRule('aria-allowed-attr', {
       nodeName: 'div',
       attributes: {
@@ -13,7 +13,7 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should pass for allowed attributes', function() {
+  it('should pass for allowed attributes', function () {
     var results = axe.runVirtualRule('aria-allowed-attr', {
       nodeName: 'div',
       attributes: {
@@ -28,7 +28,7 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should pass for invalid attributes', function() {
+  it('should pass for invalid attributes', function () {
     var results = axe.runVirtualRule('aria-allowed-attr', {
       nodeName: 'div',
       attributes: {
@@ -42,11 +42,11 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should pass for element with no role', function() {
+  it('should pass for global attributes and element with no role', function () {
     var results = axe.runVirtualRule('aria-allowed-attr', {
       nodeName: 'div',
       attributes: {
-        'aria-checked': true
+        'aria-busy': true
       }
     });
 
@@ -55,7 +55,20 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should fail for unallowed attributes', function() {
+  it('should fail for non-global attributes and element with no role', function () {
+    var results = axe.runVirtualRule('aria-allowed-attr', {
+      nodeName: 'div',
+      attributes: {
+        'aria-checked': true
+      }
+    });
+
+    assert.lengthOf(results.passes, 0);
+    assert.lengthOf(results.violations, 1);
+    assert.lengthOf(results.incomplete, 0);
+  });
+
+  it('should fail for unallowed attributes', function () {
     var results = axe.runVirtualRule('aria-allowed-attr', {
       nodeName: 'div',
       attributes: {
@@ -69,7 +82,7 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should fail for unallowed attributes - implicit role', function() {
+  it('should fail for unallowed attributes - implicit role', function () {
     var results = axe.runVirtualRule('aria-allowed-attr', {
       nodeName: 'a',
       attributes: {
@@ -83,7 +96,7 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should fail for unsupported attributes', function() {
+  it('should fail for unsupported attributes', function () {
     axe.configure({
       standards: {
         ariaAttrs: {
@@ -105,5 +118,33 @@ describe('aria-allowed-attr virtual-rule', function() {
     assert.lengthOf(results.passes, 0);
     assert.lengthOf(results.violations, 1);
     assert.lengthOf(results.incomplete, 0);
+  });
+
+  it('fails when aria-checked is inconsistent with native checkbox state', () => {
+    var results = axe.runVirtualRule('aria-allowed-attr', {
+      nodeName: 'input',
+      checked: true,
+      attributes: {
+        type: 'checkbox',
+        'aria-checked': 'false'
+      }
+    });
+
+    assert.lengthOf(results.passes, 0);
+    assert.lengthOf(results.violations, 1);
+    assert.lengthOf(results.incomplete, 0);
+  });
+
+  it('should incomplete for non-global attributes and custom element', function () {
+    var results = axe.runVirtualRule('aria-allowed-attr', {
+      nodeName: 'custom-elm1',
+      attributes: {
+        'aria-checked': true
+      }
+    });
+
+    assert.lengthOf(results.passes, 0);
+    assert.lengthOf(results.violations, 0);
+    assert.lengthOf(results.incomplete, 1);
   });
 });

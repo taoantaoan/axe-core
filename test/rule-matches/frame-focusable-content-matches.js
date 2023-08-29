@@ -1,16 +1,16 @@
-describe('frame-focusable-content-matches', function() {
+describe('frame-focusable-content-matches', function () {
   'use strict';
   var rule;
 
-  beforeEach(function() {
+  beforeEach(function () {
     rule = axe.utils.getRule('frame-focusable-content');
   });
 
-  it('returns false for the top-level context', function() {
+  it('returns false for the top-level context', function () {
     var result = rule.matches(null, null, {
       initiator: true,
       focusable: false,
-      boundingClientRect: {
+      size: {
         width: 100,
         height: 100
       }
@@ -18,11 +18,11 @@ describe('frame-focusable-content-matches', function() {
     assert.isFalse(result);
   });
 
-  it('returns false for focusable iframes', function() {
+  it('returns false for focusable iframes', function () {
     var result = rule.matches(null, null, {
       initiator: false,
       focusable: true,
-      boundingClientRect: {
+      size: {
         width: 100,
         height: 100
       }
@@ -30,11 +30,11 @@ describe('frame-focusable-content-matches', function() {
     assert.isFalse(result);
   });
 
-  it('returns false for non-focusable iframes that are too small (1x1)', function() {
+  it('returns false for non-focusable iframes that are too small (1x1)', function () {
     var result = rule.matches(null, null, {
       initiator: false,
       focusable: false,
-      boundingClientRect: {
+      size: {
         width: 1,
         height: 1
       }
@@ -42,11 +42,11 @@ describe('frame-focusable-content-matches', function() {
     assert.isFalse(result);
   });
 
-  it('returns false for non-focusable iframes that are too small (0x0)', function() {
+  it('returns false for non-focusable iframes that are too small (0x0)', function () {
     var result = rule.matches(null, null, {
       initiator: false,
       focusable: false,
-      boundingClientRect: {
+      size: {
         width: 0,
         height: 0
       }
@@ -54,11 +54,11 @@ describe('frame-focusable-content-matches', function() {
     assert.isFalse(result);
   });
 
-  it('returns true for non-focusable iframes', function() {
+  it('returns true for non-focusable iframes', function () {
     var result = rule.matches(null, null, {
       initiator: false,
       focusable: false,
-      boundingClientRect: {
+      size: {
         width: 2,
         height: 1
       }

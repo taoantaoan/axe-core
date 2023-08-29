@@ -51,6 +51,46 @@
   <div aria-posinset="-22" id="violation42">hi</div>
 
   <div aria-setsize="-22" id="violation43">hi</div>
+
+  <div>
+    <input
+      type="text"
+      id="violation44"
+      aria-invalid="true"
+      aria-errormessage="violation44-ref"
+    />
+    <div id="violation44-ref" hidden>Error message 1</div>
+  </div>
+
+  <div>
+    <input
+      type="text"
+      id="violation45"
+      aria-invalid="true"
+      aria-errormessage="violation45-ref"
+    />
+    <div id="violation45-ref" style="display: none">Error message 1</div>
+  </div>
+
+  <div>
+    <input
+      type="text"
+      id="violation46"
+      aria-invalid="true"
+      aria-errormessage="violation46-ref"
+    />
+    <div id="violation46-ref" style="visibility: hidden">Error message 1</div>
+  </div>
+
+  <div>
+    <input
+      type="text"
+      id="violation47"
+      aria-invalid="true"
+      aria-errormessage="violation47-ref"
+    />
+    <div id="violation47-ref" aria-hidden="true">Error message 1</div>
+  </div>
 </div>
 <h2>Possible False Positives</h2>
 <div>
@@ -131,9 +171,7 @@
   <div aria-labelledby=" ref ref2 " id="pass58">hi</div>
 
   <div aria-level="1" id="pass59">hi</div>
-  <div aria-level="22" id="pass60">hi</div>
   <div aria-level="+1" id="pass61">hi</div>
-  <div aria-level="+22" id="pass62">hi</div>
 
   <div aria-live="off" id="pass66">hi</div>
   <div aria-live="polite" id="pass67">hi</div>
@@ -261,15 +299,14 @@
     hi
   </div>
 
+  <!-- Allowed empty -->
   <div aria-activedescendant="" id="pass171">hi</div>
   <div aria-current="" id="pass172">hi</div>
-  <div aria-invalid="" id="pass173">hi</div>
   <div aria-controls="" id="pass174">hi</div>
   <div aria-describedby="" id="pass175">hi</div>
   <div aria-errormessage="" id="pass176" aria-invalid="true">hi</div>
   <div aria-flowto="" id="pass177">hi</div>
   <div aria-haspopup="" id="pass178">hi</div>
-  <div aria-invalid="" id="pass179">hi</div>
   <div aria-keyshortcuts="" id="pass180">hi</div>
   <div aria-label="" id="pass181">hi</div>
   <div aria-labelledby="" id="pass182">hi</div>
@@ -278,10 +315,44 @@
   <div aria-errormessage="invalidId" id="pass185">hi</div>
   <div aria-errormessage="invalidId" aria-invalid="false" id="pass186">hi</div>
 
+  <div>
+    <input
+      type="text"
+      id="pass187"
+      aria-invalid="true"
+      aria-errormessage="pass68"
+    />
+  </div>
+
+  <div aria-live="assertive" aria-hidden="false" id="pass188">hi</div>
+
+  <div>
+    <input
+      type="text"
+      id="pass189"
+      aria-invalid="true"
+      aria-errormessage="pass188"
+    />
+  </div>
+
+  <div>
+    <input
+      type="text"
+      id="pass190"
+      aria-invalid="false"
+      aria-errormessage="violation44-ref"
+    />
+  </div>
+
   <div id="ref">Hi</div>
   <div id="ref2">Hi2</div>
 
   <div aria-describedby="stuff" id="incomplete1">hi</div>
   <div aria-current="stage" id="incomplete2">hi</div>
   <div aria-labelledby="stuff" id="incomplete3">hi</div>
+  <div aria-level="22" id="incomplete4">hi</div>
+  <div aria-level="+22" id="incomplete5">hi</div>
+  <div role="checkbox" id="incomplete6" aria-checked>I'm not checked</div>
+  <div role="textbox" id="incomplete7" aria-invalid="">I'm actually valid</div>
+  <div role="textbox" id="incomplete8" aria-hidden>I'm not really gone</div>
 </div>

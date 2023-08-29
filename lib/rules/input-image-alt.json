@@ -6,10 +6,14 @@
     "cat.text-alternatives",
     "wcag2a",
     "wcag111",
+    "wcag412",
     "section508",
     "section508.22.a",
-    "ACT"
+    "ACT",
+    "TTv5",
+    "TT7.a"
   ],
+  "actIds": ["59796f"],
   "metadata": {
     "description": "Ensures <input type=\"image\"> elements have alternate text",
     "help": "Image buttons must have alternate text"

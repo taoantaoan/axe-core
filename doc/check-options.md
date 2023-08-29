@@ -6,7 +6,9 @@
 - [Options](#options)
   - [Global Options](#global-options)
   - [aria-allowed-role](#aria-allowed-role)
+  - [aria-prohibited-attr](#aria-prohibited-attr)
   - [aria-required-children](#aria-required-children)
+  - [aria-required-parent](#aria-required-parent)
   - [aria-roledescription](#aria-roledescription)
   - [color-contrast](#color-contrast)
   - [page-has-heading-one](#page-has-heading-one)
@@ -23,12 +25,18 @@
   - [css-orientation-lock](#css-orientation-lock)
   - [meta-viewport-large](#meta-viewport-large)
   - [meta-viewport](#meta-viewport)
+  - [meta-refresh](#meta-refresh)
   - [header-present](#header-present)
   - [landmark](#landmark)
   - [p-as-heading](#p-as-heading)
   - [avoid-inline-spacing](#avoid-inline-spacing)
   - [scope-value](#scope-value)
+  - [target-offset](#target-offset)
+  - [target-size](#target-size)
   - [region](#region)
+  - [inline-style-property](#inline-style-property)
+  - [invalid-children](#invalid-children)
+  - [link-in-text-block](#link-in-text-block)
 
 ## How Checks Work
 
@@ -73,6 +81,42 @@ All checks allow these global options:
 | `allowImplicit` | `true`  | Allow the explicit role to match the implicit role of the element |
 | `ignoredTags`   | `[]`    | Do not check for allowed roles in the provided HTML elements list |
 
+### aria-prohibited-attr
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th align="left">Default</th>
+      <th align="left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>elementsAllowedAriaLabel</code>
+      </td>
+      <td align="left">
+        <pre lang=js><code>[
+  "audio",
+  "applet",
+  "canvas",
+  "dl",
+  "embed",
+  "iframe",
+  "input",
+  "label",
+  "meter",
+  "object",
+  "svg",
+  "video"
+]</code></pre>
+        </td>
+      <td align="left">List of element names that without a role, are allowed an `aria-label` and `aria-labelledby` attribute</td>
+    </tr>
+  </tbody>
+</table>
+
 ### aria-required-children
 
 <table>
@@ -103,6 +147,29 @@ All checks allow these global options:
 ]</code></pre>
         </td>
       <td align="left">List of ARIA roles that should be flagged as "Needs Review" rather than a violation if the element has no owned children</td>
+    </tr>
+  </tbody>
+</table>
+
+### aria-required-parent
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th align="left">Default</th>
+      <th align="left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>ownGroupRoles</code>
+      </td>
+      <td align="left">
+        <pre lang=js><code>['listitem', 'treeitem']</code></pre>
+        </td>
+      <td align="left">List of ARIA roles that when used in a group can have a grand parent with the same role. E.g. <code>list > listitem > group > listitem</code>.</td>
     </tr>
   </tbody>
 </table>
@@ -138,16 +205,51 @@ All checks allow these global options:
   </tbody>
 </table>
 
+### aria-allowed-attr
+
+Previously supported properties `validTreeRowAttrs` is no longer available. `invalidTableRowAttrs` from [aria-conditional-attr](#aria-conditional-attr) instead.
+
+### aria-conditional-attr
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th align="left">Default</th>
+      <th align="left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>invalidTableRowAttrs</code>
+      </td>
+      <td align="left">
+        <pre lang=js><code>[
+  'aria-posinset',
+  'aria-setsize',
+  'aria-expanded',
+  'aria-level',
+]</code></pre>
+        </td>
+      <td align="left">List of ARIA attributes that are not allowed on <code>role=row</code> when a descendant of a table or a grid</td>
+    </tr>
+  </tbody>
+</table>
+
 ### color-contrast
 
 | Option                                                      | Default | Description                                                                                                                                                                                  |
 | ----------------------------------------------------------- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ignoreUnicode`                                             | `true`  | Do not check the color contrast of Unicode characters                                                                                                                                        |
 | `ignoreLength`                                              | `false` | Do not check the color contrast of short text content                                                                                                                                        |
+| `ignorePseudo`                                              | `false` | Do not mark pseudo elements as Needs Review                                                                                                                                                  |
 | `boldValue`                                                 | `700`   | The minimum CSS `font-weight` value that designates bold text                                                                                                                                |
 | `boldTextPt`                                                | `14`    | The minimum CSS `font-size` pt value that designates bold text as being large                                                                                                                |
 | `largeTextPt`                                               | `18`    | The minimum CSS `font-size` pt value that designates text as being large                                                                                                                     |
 | `shadowOutlineEmMax`                                        | `0.1`   | The maximum `blur-radius` value (in ems) of the CSS `text-shadow` property. `blur-radius` values greater than this value will be treated as a background color rather than an outline color. |
+| `textStrokeEmMin`                                           | `0.03`  | The minimum EM width of `-webkit-text-stroke` before axe uses the text stroke color over the actual text color.                                                                              |
+| `pseudoSizeThreshold`                                       | `0.25`  | Minimum area of the pseudo element, relative to the text element, below which it will be ignored for colot contrast.                                                                         |
 | `contrastRatio`                                             | N/A     | Contrast ratio options                                                                                                                                                                       |
 | &nbsp;&nbsp;`contrastRatio.normal`                          | N/A     | Contrast ratio requirements for normal text (non-bold text or text smaller than `largeTextPt`)                                                                                               |
 | &nbsp;&nbsp;&nbsp;&nbsp;`contrastRatio.normal.expected`     | `4.5`   | The expected contrast ratio for normal text                                                                                                                                                  |
@@ -245,10 +347,10 @@ th</code></pre>
 
 ### label-content-name-mismatch
 
-| Option               | Default | Description                                                                                                                                                               |
-| -------------------- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `pixelThreshold`     | `0.1`   | Percent of difference in pixel data or pixel width required to determine if a font is a ligature font. Ligature fonts are ignored when comparing the label to the content |
-| `occuranceThreshold` | `3`     | Number of times the font is encountered before auto-assigning the font as a ligature or not                                                                               |
+| Option                | Default | Description                                                                                                                                                               |
+| --------------------- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pixelThreshold`      | `0.1`   | Percent of difference in pixel data or pixel width required to determine if a font is a ligature font. Ligature fonts are ignored when comparing the label to the content |
+| `occurrenceThreshold` | `3`     | Number of times the font is encountered before auto-assigning the font as a ligature or not                                                                               |
 
 ### has-lang
 
@@ -293,6 +395,13 @@ th</code></pre>
 | Option         | Default | Description                                                                                  |
 | -------------- | :------ | :------------------------------------------------------------------------------------------- |
 | `scaleMinimum` | `2`     | The `scale-maximum` CSS value the check applies to. Values above this number will be ignored |
+
+### meta-refresh
+
+| Option     | Default | Description                                                                         |
+| ---------- | :------ | :---------------------------------------------------------------------------------- |
+| `minDelay` | `0`     | Passes if the redirect is equal or less than this. Can be set to `false` to disable |
+| `maxDelay` | `7200`  | Passes if the redirect is greater than this. Can be set to `false` to disable       |
 
 ### header-present
 
@@ -354,6 +463,24 @@ h6:not([role]),
         </td>
       <td align="left">Common CSS values used to display `p` elements as `h1-h6` elements determining if a `p` element is being improperly repurposed</td>
     </tr>
+    <tr>
+     <td>
+        <code>passLength</code>
+      </td>
+      <td align="left">
+        <pre lang=js><code>"passLength": 1</code></pre>
+        </td>
+      <td align="left">Relative length, if the the candidate heading is X times or greater the length of the candidate paragraph, it will pass.</td>
+      </tr>
+       <tr>
+     <td>
+        <code>faiLength</code>
+      </td>
+      <td align="left">
+        <pre lang=js><code>"failLength": 0.5</code></pre>
+        </td>
+      <td align="left">Relative length, if the the candidate heading is X times or less the length of the candidate paragraph, it can fail.</td>
+      </tr>
   </tbody>
 </table>
 
@@ -369,8 +496,59 @@ h6:not([role]),
 | -------- | :-------------------------------------------------------- | :------------------------- |
 | `values` | <pre lang=js>['row', 'col', 'rowgroup', 'colgroup']</pre> | List of valid scope values |
 
+### target-offset
+
+| Option      | Default | Description                                                                                                |
+| ----------- | :------ | :--------------------------------------------------------------------------------------------------------- |
+| `minOffset` | `24`    | Minimum space required from the farthest edge of the target, to the closest edge of the neighboring target |
+
+### target-size
+
+| Option    | Default | Description                                                                                              |
+| --------- | :------ | :------------------------------------------------------------------------------------------------------- |
+| `minSize` | `24`    | Minimum width and height a component should have, that is not obscured by some other interactive element |
+
 ### region
 
 | Option          | Default                                        | Description                                                                 |
 | --------------- | :--------------------------------------------- | :-------------------------------------------------------------------------- |
 | `regionMatcher` | <pre lang=css>dialog, [role=dialog], svg</pre> | A matcher object or CSS selector to allow elements to be treated as regions |
+
+### inline-style-property-evaluate
+
+This evaluate method is used in the following checks. Default vary between checks
+
+- important-letter-spacing
+- important-word-spacing
+- important-line-height
+
+| Option           | Description                                                                   |
+| ---------------- | :---------------------------------------------------------------------------- |
+| `cssProperty`    | Which property to check the value of, for example letter-spacing or font-size |
+| `absoluteValues` | Whether or not to calculate value in pixels (true) or in em (false)           |
+| `noImportant`    | While false, the check returns `true` except if !important is used            |
+| `multiLineOnly`  | If true,                                                                      |
+| `minValue`       | Returns `false` when the value is less than `minValue`                        |
+| `maxValue`       | Returns `false` when the value is more than `maxValue`                        |
+| `normalValue`    | The value to use when `normal` is set, defaults to `0`                        |
+
+If `minValue` and `maxValue` are both undefined, the check returns `false` if the property is used with !important. If done along with `noImportant: true`, the check returns false if the property is set at all in the style attribute.
+
+### invalid-children
+
+This evaluation method is used in the `list` and `definition-list` rule to determine whether its child nodes are allowed.
+
+| Option           | Description                                                                         |
+| ---------------- | :---------------------------------------------------------------------------------- |
+| `validNodeNames` | Nodes without role allowed as children                                              |
+| `validRoles`     | Roles allowed on child elements                                                     |
+| `divGroups`      | Whether the child nodes can be grouped in a div without any role (false by default) |
+
+### link-in-text-block
+
+This evaluation method is used in the `link-in-text-block` rule and tests that either the foreground color or the background color has sufficient contrast between the link text and the surrounding text.
+
+| Option                  | Default | Description                                                                 |
+| ----------------------- | :------ | :-------------------------------------------------------------------------- |
+| `requiredContrastRatio` | `3`     | Minimum contrast needed to pass the check between text or background colors |
+| `allowSameColor`        | `true`  | Whether links with colors identical to its surroundings should pass         |

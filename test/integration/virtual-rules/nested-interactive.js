@@ -1,5 +1,5 @@
-describe('nested-interactive virtual-rule', function() {
-  it('should pass for element without focusable content', function() {
+describe('nested-interactive virtual-rule', function () {
+  it('should pass for element without focusable content', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'button'
     });
@@ -17,7 +17,7 @@ describe('nested-interactive virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should pass for aria element without focusable content', function() {
+  it('should pass for aria element without focusable content', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'div',
       attributes: {
@@ -38,7 +38,27 @@ describe('nested-interactive virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should pass for empty element without', function() {
+  it('should pass for element with non-widget content which has negative tabindex', function () {
+    var node = new axe.SerialVirtualNode({
+      nodeName: 'button'
+    });
+    var child = new axe.SerialVirtualNode({
+      nodeName: 'span',
+      attributes: {
+        tabindex: -1
+      }
+    });
+    child.children = [];
+    node.children = [child];
+
+    var results = axe.runVirtualRule('nested-interactive', node);
+
+    assert.lengthOf(results.passes, 1);
+    assert.lengthOf(results.violations, 0);
+    assert.lengthOf(results.incomplete, 0);
+  });
+
+  it('should pass for empty element without', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'div',
       attributes: {
@@ -54,7 +74,7 @@ describe('nested-interactive virtual-rule', function() {
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should fail for element with focusable content', function() {
+  it('should pass for element with non-widget content', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'button'
     });
@@ -69,12 +89,12 @@ describe('nested-interactive virtual-rule', function() {
 
     var results = axe.runVirtualRule('nested-interactive', node);
 
-    assert.lengthOf(results.passes, 0);
-    assert.lengthOf(results.violations, 1);
+    assert.lengthOf(results.passes, 1);
+    assert.lengthOf(results.violations, 0);
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should fail for element with natively focusable content', function() {
+  it('should fail for element with native widget content', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'div',
       attributes: {
@@ -89,12 +109,12 @@ describe('nested-interactive virtual-rule', function() {
 
     var results = axe.runVirtualRule('nested-interactive', node);
 
-    assert.lengthOf(results.passes, 0);
+    assert.lengthOf(results.passes, 1);
     assert.lengthOf(results.violations, 1);
     assert.lengthOf(results.incomplete, 0);
   });
 
-  it('should return incomplete if element has undefined children', function() {
+  it('should return incomplete if element has undefined children', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'button'
     });
@@ -106,7 +126,7 @@ describe('nested-interactive virtual-rule', function() {
     assert.lengthOf(results.incomplete, 1);
   });
 
-  it('should return incomplete if descendant has undefined children', function() {
+  it('should return incomplete if descendant has undefined children', function () {
     var node = new axe.SerialVirtualNode({
       nodeName: 'button'
     });

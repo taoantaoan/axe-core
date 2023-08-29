@@ -5,13 +5,15 @@
   "tags": [
     "cat.text-alternatives",
     "wcag2a",
-    "wcag111",
     "wcag244",
     "wcag412",
     "section508",
     "section508.22.a",
-    "ACT"
+    "ACT",
+    "TTv5",
+    "TT6.a"
   ],
+  "actIds": ["c487ae"],
   "metadata": {
     "description": "Ensures <area> elements of image maps have alternate text",
     "help": "Active <area> elements must have alternate text"
